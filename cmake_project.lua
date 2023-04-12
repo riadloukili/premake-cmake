@@ -211,14 +211,14 @@ function m.generate(prj)
 			-- test locally in the project folder first (this is the most likely location)
 			local testname = path.join(cfg.project.basedir, pch)
 			if os.isfile(testname) then
-				pch = project.getrelative(cfg.project, testname)
+				pch = project.getrelative(prj.workspace, testname)
 				found = true
 			else
 				-- else scan in all include dirs.
 				for _, incdir in ipairs(cfg.includedirs) do
 					testname = path.join(incdir, pch)
 					if os.isfile(testname) then
-						pch = project.getrelative(cfg.project, testname)
+						pch = project.getrelative(prj.workspace, testname)
 						found = true
 						break
 					end
@@ -226,7 +226,7 @@ function m.generate(prj)
 			end
 
 			if not found then
-				pch = project.getrelative(cfg.project, path.getabsolute(pch))
+				pch = project.getrelative(prj.workspace, path.getabsolute(pch))
 			end
 
 			_p('if(CMAKE_BUILD_TYPE STREQUAL %s)', cmake.cfgname(cfg))
